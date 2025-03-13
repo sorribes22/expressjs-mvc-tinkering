@@ -1,16 +1,22 @@
 import express from 'express'
-const app = express()
+import { moviesRouter } from './routes/movies.js'
 const PORT = process.env.PORT || 3000
 
+const app = express()
 app.disable('x-powered-by')
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.send('Hello World')
-})
+app.use('/movies', moviesRouter)
 
 app.use((req, res) => {
-  res.status(404).send('Not Found')
+  // console.log('test')
+  // console.log('Request to unknown path:', req.path)
+  // app._router.stack.forEach(function (r) {
+  //   if (r.route && r.route.path) {
+  //     console.log(r.route.path)
+  //   }
+  // })
+  res.status(404).json({ error: 'Not found' })
 })
 
 app.listen(PORT, () => {
